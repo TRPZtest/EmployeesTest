@@ -17,7 +17,7 @@ namespace EmployeesTest.Data.Db
             _context = context;
         }
 
-        public async Task<Employee[]> GetAllEmployees()
+        public async Task<Employee[]> GetAllAsync()
         {
             var employees = await _context.Employees
                 .Include(x => x.Position)
@@ -46,12 +46,16 @@ namespace EmployeesTest.Data.Db
             return departments;
         }
 
-        public async Task DeleteEmployee(int id)
+        public void Delete(Employee employee)
+        {          
+           _context.Employees.Remove(employee);
+        }
+
+        public async Task<Employee> FindAsync(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
 
-            if (employee is not null)
-                _context.Employees.Remove(employee);
+            return employee;
         }
 
         public void UpdateEmplyee(Employee employee)

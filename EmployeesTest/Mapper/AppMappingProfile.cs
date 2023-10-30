@@ -13,6 +13,10 @@ namespace EmployeesTest.Mapper
             CreateMap<Employee, EmployeeView>()
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Name))
                 .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position.Name));
+
+            CreateMap<Employee, EditEmployeeView>()
+               .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Name))
+               .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position.Name));
         }
     }
 }
