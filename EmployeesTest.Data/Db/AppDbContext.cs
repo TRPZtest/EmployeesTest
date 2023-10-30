@@ -12,6 +12,6 @@ namespace EmployeesTest.Data.Db
     {
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }       
     }
 }

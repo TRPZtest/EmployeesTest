@@ -46,5 +46,22 @@ namespace EmployeesTest.Data.Db
             return departments;
         }
 
+        public async Task DeleteEmployee(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+
+            if (employee is not null)
+                _context.Employees.Remove(employee);
+        }
+
+        public void UpdateEmplyee(Employee employee)
+        {
+            _context.Employees.Update(employee);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

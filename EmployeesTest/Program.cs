@@ -1,7 +1,16 @@
+using EmployeesTest.Data.Db;
+using EmployeesTest.Mapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext, TestDbContext>();
+
+builder.Services.AddScoped<EmployeeRepository>();
+
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿using EmployeesTest.Data.Db.Enteties;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,19 @@ using System.Threading.Tasks;
 namespace EmployeesTest.Data.Db
 {
     public class TestDbContext : AppDbContext
-    {
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {    
+        public TestDbContext()
         {
-            base.OnModelCreating(modelBuilder);
+            Database.EnsureCreated();
+        }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {           
+            optionsBuilder.UseInMemoryDatabase("EmployeesDb");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {    
             modelBuilder.Entity<Position>().HasData(
                 new Position { Id = 1, Name = "Вантажник" },
                 new Position { Id = 2, Name = "Водій"},
