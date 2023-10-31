@@ -66,6 +66,11 @@ namespace EmployeesTest.Data.Db
             _context.Employees.Update(employee);
         }
 
+        public async Task AddEmplyee(Employee employee)
+        {
+            await _context.Employees.AddAsync(employee);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

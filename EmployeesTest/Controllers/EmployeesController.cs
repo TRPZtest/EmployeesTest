@@ -65,6 +65,31 @@ namespace EmployeesTest.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Create()
+        {
+            var addEmployeeView = new EditEmployeeView();
+
+            var departments = await _employeeRepository.GetAllDepartmentsAsync();
+
+            var positions = await _employeeRepository.GetAllPositionsAcync();
+
+            addEmployeeView.Positions = positions;
+            addEmployeeView.Departments = departments;
+
+            return View(addEmployeeView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(Employee employee)
+        {
+            await _employeeRepository.AddEmplyee(employee);
+
+            await _employeeRepository.SaveChangesAsync();
+
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
         public async Task<ActionResult> Edit([FromRoute] int id)
         {
             var employee = await _employeeRepository.FindAsync(id);
@@ -84,7 +109,7 @@ namespace EmployeesTest.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Employee employee)
         {
-                _employeeRepository.UpdateEmplyee(employee);
+            _employeeRepository.UpdateEmplyee(employee);
 
             await _employeeRepository.SaveChangesAsync();
 
