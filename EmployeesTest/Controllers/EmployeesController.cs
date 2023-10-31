@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EmployeesTest.Data.Db;
 using EmployeesTest.Data.Db.Enteties;
+using EmployeesTest.Data.Enums;
 using EmployeesTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
@@ -25,13 +26,28 @@ namespace EmployeesTest.Controllers
             return RedirectToAction("List");
         }
 
-        public async Task<ActionResult> List()
+        public async Task<ActionResult> List([FromQuery]Filters? filter, [FromQuery] string filterValue = "")
         {
-            var employees = await _employeeRepository.GetAllAsync();
+            Employee[] employees;
 
-            var employeeViews = _mapper.Map <EmployeeView[]>(employees);
+            if (filter == null && string.IsNullOrEmpty(filterValue))
+                employees = await _employeeRepository.GetAllAsync();
+            else
+                employees = await _employeeRepository.GetWithFilter(filter, filterValue);
 
-            return View(employeeViews);
+            var filters = Enum.GetValues<Filters>();
+
+            var employeeViews = _mapper.Map<EmployeeView[]>(employees);
+
+            var viewModel = new EmployeesListView
+            {
+                Employees = employeeViews,
+                Filter = filter,
+                Filters = filters,
+                FilterValue = filterValue
+            };
+
+            return View(viewModel);
         }
         
         public async Task<ActionResult> Delete([FromRoute]int id)

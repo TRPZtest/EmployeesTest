@@ -1,4 +1,5 @@
 using EmployeesTest.Data.Db;
+using EmployeesTest.Data.Enums;
 using EmployeesTest.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
